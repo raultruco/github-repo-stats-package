@@ -1,4 +1,4 @@
 # github-repo-stats
 
-Python package to get statistics from a github repository url
+Python package to get statistics of a github repository
 
