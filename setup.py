@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='github-repo-stats',
     packages=find_packages(include=['githubrepostats']),
-    version='0.1.2',
+    version='0.1.3',
     description='Get github repository statistics',
     author='Me',
     license='MIT',
