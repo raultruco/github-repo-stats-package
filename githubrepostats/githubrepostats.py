@@ -12,6 +12,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 import numpy as np
 from urllib.parse import urlparse
+from traceback import format_exc
 
 GITHUB_API_BASEURL = "https://api.github.com"
 
@@ -135,7 +136,7 @@ class GithubRepoStats:
         ## Metric stats
         stats = {
             'commits': int(current_metrics_df['commits'].iloc[0]),
-            'aditions': int(current_metrics_df['additions'].iloc[0]),
+            'additions': int(current_metrics_df['additions'].iloc[0]),
             'deletions': int(current_metrics_df['deletions'].iloc[0]),
             'last_updated': current_metrics_df['last_updated'].iloc[0],
             'commits_diff1': int(current_metrics_df['commits'].iloc[0] - last_month_means['commits']),
@@ -320,6 +321,19 @@ class GithubRepoStats:
         except Exception:
             print(f'Error parsing url: {url}')
             return (None, None)
+
+    @classmethod
+    def is_valid_github_repo_url(cls, url):
+        try:
+            parsed_url = urlparse(url)
+            url_path_parts = parsed_url.path.split('/')
+            if (parsed_url.hostname == 'github.com' and url_path_parts[1] and url_path_parts[2]):
+                return True
+            
+            return False
+        except Exception:
+            print(f'Error parsing url: {url}... {format_exc()}')
+            return False
 
     # function that converts all object columns to strings, in order to store them efficiently into the database
     @classmethod
